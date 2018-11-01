@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Instant Go</string>
+    <string name="location_permission">Permission needed to get your location</string>
 </resources>

@@ -1,10 +1,17 @@
 package io.github.thesunilvarma.pwa_c;
 
 
+import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,8 +30,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    Toolbar toolbar;
-    android.widget.SearchView searchView;
+
+    android.support.v7.widget.SearchView searchView;
 
     //vars
     public static ArrayList<String> mAppNames = new ArrayList<>();
@@ -36,17 +43,55 @@ public class MainActivity extends AppCompatActivity {
     private String c_https = "&source=linkkit&url=https%3A%2F%2F";
     private String v_link = "https://redirect.viglink.com?key=e95c5378701a76cd68a4e7ccbea420a6&u=https%3A%2F%2F";
 
+    private void requestCameraPermission() {
+        Log.i(TAG, "CAMERA permission has NOT been granted. Requesting permission.");
 
+        // BEGIN_INCLUDE(camera_permission_request)
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)) {
+            // Provide an additional rationale to the user if the permission was not granted
+            // and the user would benefit from additional context for the use of the permission.
+            // For example if the user has previously denied the permission.
+            Log.i(TAG,
+                    "Displaying camera permission rationale to provide additional context.");
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.location_permission)
+                    .setMessage(R.string.location_permission)
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //Prompt the user once explanation has been shown
+                            ActivityCompat.requestPermissions(MainActivity.this,
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                    99);
+                        }
+                    })
+                    .create()
+                    .show();
+        } else {
+
+            // Camera permission has not been granted yet. Request it directly.
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    99);
+        }
+        // END_INCLUDE(camera_permission_request)
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG,"onCreate: started.");
-        toolbar=findViewById(R.id.search);
+        Toolbar toolbar =findViewById(R.id.search);
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
         initImageLogoBitmaps();
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+            requestCameraPermission();
+        }
+
 
     }
 
@@ -61,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         mAppLogos.add("https://cdn0.cuelinks.com/campaigns/207/medium/airtel.png?1517827681");
         mAppNames.add("Airtel Online Recharge");
         mAppDescription.add("");
-        mAppOpenLink.add(c_redirectlink+c_subid+c_https+"www.airtel.in%2Fprepaid-recharge");
+        mAppOpenLink.add(c_redirectlink+c_subid+c_https+"www.airtel.in/prepaid-recharge");
 
         mAppLogos.add("https://cdn0.cuelinks.com/campaigns/2589/medium/Ajio.png?1516080211");
         mAppNames.add("Ajio");
@@ -116,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         mAppLogos.add("https://cdn0.cuelinks.com/campaigns/3560/medium/bing.png?1523019714");
         mAppNames.add("Bing Ads");
         mAppDescription.add("Bing Ads");
-        mAppOpenLink.add(c_redirectlink+c_subid+c_https+"advertise.bingads.microsoft.com%2Fen-in%2Fh%2Fa%2Faffiliate");
+        mAppOpenLink.add(c_redirectlink+c_subid+c_https+"advertise.bingads.microsoft.com/en-in/h/a/affiliate");
 
         mAppLogos.add("https://cdn0.cuelinks.com/campaigns/20/medium/Bluestone.png?1489126953");
         mAppNames.add("Bluestone");
@@ -171,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
         mAppLogos.add("https://cdn0.cuelinks.com/campaigns/3669/medium/Curefit.png?1532609634");
         mAppNames.add("Curefit");
         mAppDescription.add("Curefit");
-        mAppOpenLink.add(c_redirectlink+c_subid+c_https+"www.cure.fit%2Feat");
+        mAppOpenLink.add(c_redirectlink+c_subid+c_https+"www.cure.fit/eat");
 
 
         mAppLogos.add("https://cdn0.cuelinks.com/campaigns/229/medium/dailyobjects.png?1498647455");
@@ -278,12 +323,12 @@ public class MainActivity extends AppCompatActivity {
         mAppLogos.add("https://cdn0.cuelinks.com/campaigns/1911/medium/KFC_Online_delivery_Order_KFC_Online_India_Offers__discounts_and_coupons.png?1402055287");
         mAppNames.add("KFC Delivery");
         mAppDescription.add("");
-        mAppOpenLink.add(c_redirectlink+c_subid+c_https+"online.kfc.co.in%2Foffer%2Flisting");
+        mAppOpenLink.add(c_redirectlink+c_subid+c_https+"online.kfc.co.in/offer/listing");
 
         mAppLogos.add("https://cdn0.cuelinks.com/campaigns/91/medium/Lenskart.png?1490766937");
         mAppNames.add("Lenskart");
         mAppDescription.add("Lenskart");
-        mAppOpenLink.add(c_redirectlink+c_subid+c_https+"www.lenskart.com%2Ftry-at-home%2F");
+        mAppOpenLink.add(c_redirectlink+c_subid+c_https+"www.lenskart.com/try-at-home/");
 
         mAppLogos.add("https://cdn0.cuelinks.com/campaigns/354/medium/Limeroad.png?1513409313");
         mAppNames.add("Limeroad");
@@ -293,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
         mAppLogos.add("https://cdn0.cuelinks.com/campaigns/93/medium/Make_my_trip.png?1503474625");
         mAppNames.add("Makemytrip");
         mAppDescription.add("Makemytrip");
-        mAppOpenLink.add(c_redirectlink+c_subid+c_https+"www.makemytrip.com%2Fflights");
+        mAppOpenLink.add(c_redirectlink+c_subid+c_https+"makemytrip.com/flights");
 
         mAppLogos.add("https://cdn0.cuelinks.com/campaigns/765/medium/MCDonalds.png?1504500381");
         mAppNames.add("McDonalds");
@@ -328,7 +373,12 @@ public class MainActivity extends AppCompatActivity {
         mAppLogos.add("https://cdn0.cuelinks.com/campaigns/1402/medium/nike.jpg?1387337588");
         mAppNames.add("Nike Store");
         mAppDescription.add("");
-        mAppOpenLink.add(c_redirectlink+c_subid+c_https+"www.nike.com%2Fin%2Fen_gb%2F");
+        mAppOpenLink.add(c_redirectlink+c_subid+c_https+"www.nike.com/in/en_gb/");
+
+        mAppLogos.add("https://storage.googleapis.com/pwa-directory.appspot.com/128_6221126636142592.png");
+        mAppNames.add("Ola India");
+        mAppDescription.add("");
+        mAppOpenLink.add("https://m.olacabs.com/");
 
         mAppLogos.add("https://cdn0.cuelinks.com/campaigns/3021/medium/Salebhai.png?1485252125");
         mAppNames.add("Salebhai");
@@ -349,6 +399,11 @@ public class MainActivity extends AppCompatActivity {
         mAppNames.add("Swiggy");
         mAppDescription.add("Swiggy");
         mAppOpenLink.add(c_redirectlink+c_subid+c_https+"www.swiggy.com");
+
+        mAppLogos.add("http://www.ecommerce-africa.com/sites/default/files/uber-logo-2017.jpg");
+        mAppNames.add("uber India");
+        mAppDescription.add("");
+        mAppOpenLink.add("https://m.uber.com");
 
         mAppLogos.add("https://static.pelando.com.br/live/threads/thread_large/default/182608_1.jpg");
         mAppNames.add("Udemy");
@@ -395,11 +450,11 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this,"ooooooooooooooo",Toast.LENGTH_SHORT).show();
         getMenuInflater().inflate(R.menu.search,menu);
         SearchManager searchManager=(SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView=(android.widget.SearchView)menu.findItem(R.id.search);
+        searchView=(android.support.v7.widget.SearchView)menu.findItem(R.id.search);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint("Search for Anything");
-        searchView.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 return false;
